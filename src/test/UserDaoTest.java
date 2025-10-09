@@ -1,5 +1,7 @@
 package test;
 
+import java.sql.ResultSet;
+
 public class UserDaoTest {
 	public static void main(String[] arg) {
 		UserDao userDao = new UserDao();
