@@ -2,12 +2,18 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBHelper {
 
 	public static Connection getConnection() {
 		
-		connection = DriverManager.getConnection(dbURL, username, password);
+		try {
+			connection = DriverManager.getConnection(dbURL, username, password);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -16,8 +22,9 @@ public class DBHelper {
 	static String password = "admin";
 	DriverManager driverManager;
 	static Connection connection;
+}
 	//creamos una conexion de la base de datos
-	 {
+	 
 
 		
 
