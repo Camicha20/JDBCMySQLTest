@@ -3,8 +3,10 @@ package test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.PseudoColumnUsage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import model.User;
@@ -12,7 +14,7 @@ import model.User;
 /**
  * data access object for user table
  */
-public class UserDao {
+public class UserDao implements UserDaoInterface{
 	public void insert(int id, String name, Integer age, String email, String password, boolean Vip) {
 		String insertSQL = "insert into users values(?, ?, ?, ?, ?, ?)";
 
@@ -24,7 +26,7 @@ public class UserDao {
 			 * placeholders ? con los valores pasados a traves de los parametros, de manera
 			 * que nos permite reutilizar el codigo aun más.
 			 */
-			ps.setInt(1, id);// Sustituye el primer placeholder con el valor de id
+			ps.setLong(1, id);// Sustituye el primer placeholder con el valor de id
 			ps.setString(2, name);// Sustituye el segundo placeholder con el valor de name
 			ps.setInt(3, age);// Sustituye el tercer placeholder con el valor de age
 			ps.setString(4, email);// Sustituye el cuerto placeholder con el valor de email
@@ -68,7 +70,7 @@ public class UserDao {
 
 	}
 
-	public User[] findAll() {
+	public ArrayList<User> findAll() {
 		
 		String selecSQL = "SELECT * FROM users where name = 'Alejandro' ";
 		User[] users;
@@ -100,9 +102,75 @@ public class UserDao {
 
 	}
 
-	public UserDao find(int id) {
+	public User find(int id) {
 
 		return null;
 
 	}
+	public boolean transfer(long FromUserId, long toUserId, float amount) {
+
+		String updSQL1 = "UPDATE users SET balance = balance - " + amount + " where id = " + FromUserId + " and balance > " + amount;
+		String updSQL2 = "UPDATE users SET balance = balance + " + amount + " where id = " + toUserId;
+
+		try (Connection connection = DBHelper.getConnection();) {
+			
+
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	}
+
+	@Override
+	public int insertAll(test.User[] users) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean transferWithBatch(long fromUerId, long toUserId, float amount) {
+		String updSQL1 = "UPDATE users SET balance = balance - " + amount + " where id = " + fromUerId + " and balance > " + amount;
+		String updSQL2 = "UPDATE users SET balance = balance + " + amount + " where id = " + toUserId;
+
+		try (Connection connection = DBHelper.getConnection();) {
+			
+			Statement st = connection.createStatement();
+			
+
+			st.addBatch(updSQL1);
+
+			st.addBatch(updSQL2);
+
+			st.executeBatch();
+
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

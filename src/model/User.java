@@ -2,6 +2,7 @@ package model;
 
 public class User {
 
+	public static final char[] getName = null;
 	public String name = "Alejandro";
 	int age;
 	public String email;

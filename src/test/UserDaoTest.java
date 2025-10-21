@@ -1,13 +1,18 @@
 package test;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import model.User;
 
 public class UserDaoTest {
 	public static void main(String[] arg) {
 		UserDao userDao = new UserDao();
-		userDao.insert(0, null, 10, null, null, false);
-		//eliminar un usuario con su id
-		userDao.delete(10);
+		ArrayList<User> users = userDao.findAll();
+		System.out.println("rows = " + users.size());
+		
+		User user = userDao.find(10);
+		System.out.print(user.getName());
 	}
 
 }
